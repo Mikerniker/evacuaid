@@ -3,15 +3,30 @@ import pandas as pd
 
 st.header('Situation Report')
 
+all_reports = functions.get_reports()  # to modify
+
+def add_report():
+    report = st.session_state["new_report"]
+    print(report)
+    all_reports.append(report)  # to modify
+    functions.write(all_reports) # to modify
+
+
+
 date = st.date_input("Add date", value=None)
 st.write('Date of Report:', date)
 
 time = st.time_input('Add time', value=None)
 st.write('Time:', time)
 
+
+
+
 st.write('I. Situation Overview')
-situation = st.text_input('Give a short description of the situation')
+situation = st.text_input('Give a short description of the situation',
+                          on_change=add_report, key="new_report")
 st.write(situation)
+
 
 st.write('II. Status of Affected Areas and Population')
 affected_population = st.text_input('Describe the affected areas and population')
