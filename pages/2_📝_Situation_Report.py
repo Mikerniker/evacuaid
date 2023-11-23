@@ -9,9 +9,11 @@ st.header('Situation Report')
 all_reports = functions.get_reports()
 
 @st.cache_data()
-def add_report(date, time, situation, population, displaced, response):
+def add_report(date, time, situation, population,
+               displaced, response, preparer, releaser):
     report = f"{date}, {time}, {situation}, " \
-             f"{population}, {displaced}, {response}\n"
+             f"{population}, {displaced}, {response}," \
+             f" {preparer}, {releaser}\n"
     all_reports.append(report)
     functions.write_reports(all_reports)
     return report
@@ -33,8 +35,16 @@ displaced = st.text_input('Describe displaced population')
 st.write('IV. Response Actions and Interventions')
 response = st.text_input('Describe standby funds, food and nonfood items, other activities')
 
+
+preparer = st.text_input('Prepared by')
+
+
+releaser = st.text_input('Released by')
+
+
 if st.button("Save report"):
-    add_report(date, time, situation, affected_population, displaced, response)
+    add_report(date, time, situation, affected_population,
+               displaced, response, preparer, releaser)
     # st.write(date, time, situation, affected_population, response)
     st.write(f"Date: {date}")
     st.write(f"Time: {time}")
@@ -46,5 +56,7 @@ if st.button("Save report"):
     st.write(f"Response: {displaced}")
     st.write('IV. Response Actions and Interventions')
     st.write(f"Response: {response}")
+    st.write(f"Prepared by: {preparer}")
+    st.write(f"Released by: {releaser}")
 
 # st.write(pd.DataFrame(add_report()))
