@@ -4,8 +4,6 @@ import functions
 
 st.header('Situation Report')
 
-# st.set_page_config(layout="wide")
-
 all_reports = functions.get_reports()
 
 @st.cache_data()
@@ -23,21 +21,16 @@ date = st.date_input("Add date", value=None)
 
 time = st.time_input('Add time', value=None)
 
-st.write('I. Situation Overview')
-situation = st.text_input('Give a short description of the situation')
+situation = st.text_input('Give an overview of the situation')
 
-st.write('II. Status of Affected Areas and Population')
-affected_population = st.text_input('Describe the affected areas and population')
+affected_population = st.text_input('Describe the status of affected areas and population')
 
-st.write('III. Status of Displaced Population')
-displaced = st.text_input('Describe displaced population')
+displaced = st.text_input('Describe the status of displaced population')
 
-st.write('IV. Response Actions and Interventions')
-response = st.text_input('Describe standby funds, food and nonfood items, other activities')
-
+response = st.text_input('Describe reponse actions and interventions, i.e.'
+                         ' standby funds, food and nonfood items, other activities')
 
 preparer = st.text_input('Prepared by')
-
 
 releaser = st.text_input('Released by')
 
@@ -49,13 +42,13 @@ if st.button("Save report"):
     st.write(f"Date: {date}")
     st.write(f"Time: {time}")
     st.write('I. Situation Overview')
-    st.write(f"Situation: {situation}")
+    st.write(f"{situation}")
     st.write('II. Status of Affected Areas and Population')
-    st.write(f"Affected Population: {affected_population}")
+    st.write(f"{affected_population}")
     st.write('III. Status of Displaced Population')
-    st.write(f"Response: {displaced}")
+    st.write(f"{displaced}")
     st.write('IV. Response Actions and Interventions')
-    st.write(f"Response: {response}")
+    st.write(f"{response}")
     st.write(f"Prepared by: {preparer}")
     st.write(f"Released by: {releaser}")
 
