@@ -1,49 +1,61 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import datetime
 import functions
-
-
-
+from fpdf import FPDF
+import base64
+from datab_reports import Reports, Session
 
 
 st.title('EvacuAid Hub')
 
 # st.subheader('Map of nearby evacuation centers')
 
-
 st.header('Situation Report Overview')
 
-# date = st.date_input("Add date", value=None)
-# st.write('Date of Report:', date)
+
+session = Session()
+reports = session.query(Reports).all()
+
+for report in reports:
+    st.write(f"Evacuation Site: {report.evacuation_site}")
+    st.write(f"Date: {report.date}")
+    st.write(f"Time: {report.time}")
+    st.write('I. Situation Overview')
+    st.write(f"{report.situation}")
+    st.write('II. Status of Affected Areas and Population')
+    st.write(f"{report.affected_pop}")
+    st.write('III. Status of Displaced Population')
+    st.write(f"{report.displaced}")
+    st.write('IV. Response Actions and Interventions')
+    st.write(f"{report.response}")
+    st.write(f"Prepared by: {report.preparer}")
+    st.write(f"Released by: {report.releaser}")
+
+session.close()
+
+# PDF
+# report_text = st.text_input("Report Text")
 #
-# time = st.time_input('Add time', value=None)
-# st.write('Time:', time)
+# export_as_pdf = st.button("Export Report")
 #
-# st.write('I. Situation Overview')
-# situation = st.text_input('Give a short description of the situation')
-# st.write(situation)
 #
-# st.write('II. Status of Affected Areas and Population')
-# affected_population = st.text_input('Describe the affected areas and population')
-# st.write(affected_population)
+# def create_download_link(val, filename):
+#     b64 = base64.b64encode(val)  # val looks like b'...'
+#     return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="{filename}.pdf">Download file</a>'
 #
-# st.write('III. Status of Displaced Population')
-# displaced = st.text_input('Describe displaced population')
-# st.write(displaced)
 #
-# st.write('IV. Damaged Houses')
-# housing = st.text_input('Describe housing conditions of those affected')
-# st.write(housing)
+# if export_as_pdf:
+#     pdf = FPDF()
+#     pdf.add_page()
+#     pdf.set_font('Arial', 'B', 16)
+#     pdf.cell(40, 10, report_text)
 #
-# st.write('V. Cost of Humanitarian Assistance Provided')
-# assistance = st.text_input('Describe allocation of assistance provided')
-# st.write(assistance)
+#     html = create_download_link(pdf.output(dest="S").encode("latin-1"), "test")
 #
-# st.write('VI. Response Actions and Interventions')
-# response = st.text_input('Describe standby funds and prepositioned reliefe stockpile, food and nonfood items, other activities')
-# st.write(response)
+#     st.markdown(html, unsafe_allow_html=True)
+
+
 
 # Table
 st.write('Inventory List')
@@ -78,8 +90,6 @@ edited_df = st.data_editor(
 
 
 # edited_df = st.data_editor(df, num_rows="dynamic")
-
-
 
 on = st.toggle('Activate feature')
 
