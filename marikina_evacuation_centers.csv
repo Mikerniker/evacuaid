@@ -1,16 +1,16 @@
-REGION_M,LGU_M,citymun_m,CENTER_M,LOCATION,DATE_LASTUPDATED,LAT,LONG
-NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Barangka Elementary School,"Boni Ave., Barangka, Marikina City","Monday, December 18, 2017",14.63368301,121.0819481
-NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Kalumpang Elementary School,"Kagitingan St., Kalumpang, Marikina City","Monday, December 18, 2017",14.62244287,121.0903278
-NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Leodegario Victorino Elementary School,"A. Bonifacio Ave., J. dela Peña, Mrkn.City","Monday, December 18, 2017",14.63538132,121.0903288
-NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Malanday Elementary School,"Malaya St., Malanday, Marikina City","Monday, December 18, 2017",14.65448501,121.0945687
-NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Marikina Elementary School,"Munding Ave., Sta. Elena, Marikina City","Monday, December 18, 2017",14.63134875,121.0976787
-NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,San Roque Elementary School,"Abad Santos, San Roque, Marikina City","Monday, December 18, 2017",14.62831869,121.0976774
-NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Sto Niño Elementary School,"Agricultures St., Sto. Niño, Marikina City","Monday, December 18, 2017",14.64096389,121.0965473
-NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Concepcion Elementary School,"J. Molina St., Concepcion, Marikina City","Monday, December 18, 2017",14.65163932,121.103228
-NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Concepcion Integrated School,"J.P.Rizal St., Concepcion, Marikina","Monday, December 18, 2017",14.65041761,121.1020866
-NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,H. Bautista Elementary School,"J.P. Rizal St., Concepcion, Marikina City","Monday, December 18, 2017",14.65800592,121.1042435
-NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Nangka Elementary School,"Balubad St., Nangka, Marikina City","Monday, December 18, 2017",14.67337236,121.1083501
-NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Sta. Elena High School,"Agricultures St., Sto. Niño, Marikina City","Monday, December 18, 2017",14.63620613,121.0977537
-NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Concepcion Integrated High School,"J.P.Rizal St., Concepcion, Marikina","Monday, December 18, 2017",14.65035533,121.102151
-NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Sto Niño High School,"Agricultures St., Sto. Niño, Marikina City","Monday, December 18, 2017",14.64065922,121.0962927
-NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Marikina High School,"J. Molina St., Concepcion Marikina City","Monday, December 18, 2017",14.64728399,121.102939
+REGION_M,LGU_M,citymun_m,CENTER_M,LOCATION,DATE_LASTUPDATED,LAT,LONG,CONTACT_PERSON,CONTACT_NUMBER
+NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Barangka Elementary School,"Boni Ave., Barangka, Marikina City","Monday, December 18, 2017",14.63368301,121.0819481,Bob Johnson          ,555-9876-5432
+NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Kalumpang Elementary School,"Kagitingan St., Kalumpang, Marikina City","Monday, December 18, 2017",14.62244287,121.0903278,Carol Smith,555-2468-1357
+NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Leodegario Victorino Elementary School,"A. Bonifacio Ave., J. dela Peña, Mrkn.City","Monday, December 18, 2017",14.63538132,121.0903288,David Williams,555-8642-9753
+NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Malanday Elementary School,"Malaya St., Malanday, Marikina City","Monday, December 18, 2017",14.65448501,121.0945687,Emily Davis  ,555-3197-8256
+NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Marikina Elementary School,"Munding Ave., Sta. Elena, Marikina City","Monday, December 18, 2017",14.63134875,121.0976787,Frank Miller      ,555-7381-4926
+NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,San Roque Elementary School,"Abad Santos, San Roque, Marikina City","Monday, December 18, 2017",14.62831869,121.0976774,Grace Wilson ,555-6294-8713
+NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Sto Niño Elementary School,"Agricultures St., Sto. Niño, Marikina City","Monday, December 18, 2017",14.64096389,121.0965473,Henry Brown ,555-1543-6798
+NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Concepcion Elementary School,"J. Molina St., Concepcion, Marikina City","Monday, December 18, 2017",14.65163932,121.103228,Irene Taylor            ,555-9702-8465
+NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Concepcion Integrated School,"J.P.Rizal St., Concepcion, Marikina","Monday, December 18, 2017",14.65041761,121.1020866,James Garcia         ,555-4829-7136
+NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,H. Bautista Elementary School,"J.P. Rizal St., Concepcion, Marikina City","Monday, December 18, 2017",14.65800592,121.1042435,Karen Martinez ,555-6173-2948
+NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Nangka Elementary School,"Balubad St., Nangka, Marikina City","Monday, December 18, 2017",14.67337236,121.1083501,Liam Anderson        ,555-8362-4019
+NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Sta. Elena High School,"Agricultures St., Sto. Niño, Marikina City","Monday, December 18, 2017",14.63620613,121.0977537,Mia Rodriguez           ,555-5784-9201
+NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Concepcion Integrated High School,"J.P.Rizal St., Concepcion, Marikina","Monday, December 18, 2017",14.65035533,121.102151,Noah Turner   ,555-3051-6847
+NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Sto Niño High School,"Agricultures St., Sto. Niño, Marikina City","Monday, December 18, 2017",14.64065922,121.0962927,Olivia Harris,555-7429-5186
+NATIONAL CAPITAL REGION,"NCR, SECOND DISTRICT",CITY OF MARIKINA ,Marikina High School,"J. Molina St., Concepcion Marikina City","Monday, December 18, 2017",14.64728399,121.102939,Alice Thompson     ,1 555-1234-5678
