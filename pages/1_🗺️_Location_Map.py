@@ -2,15 +2,15 @@ import streamlit as st
 import pandas as pd
 from streamlit_folium import st_folium
 import folium
+import pydeck as pdk
 
+#ORIGNAL
 st.set_page_config(
     page_title="Location Map",
 )
 
 
 st.title('EvacuAid Hub')
-
-# st.subheader('Map of nearby evacuation centers')
 
 st.header('Sites Needing Aid')
 
@@ -22,16 +22,84 @@ lat = list(df["LAT"])
 long = list(df["LONG"])
 evacuation_site = list(df["CENTER_M"])
 
-map = folium.Map(location=[14.650068, 121.102258], zoom_start=16)
 
-for lt, ln, ev in zip(lat, long, evacuation_site):
-    folium.Marker(location=[lt, ln], popup=str(ev)).add_to(map)
+st.pydeck_chart(pdk.Deck(
+    map_style=None,
+    initial_view_state=pdk.ViewState(
+        latitude=14.650068,
+        longitude=121.102258,
+        zoom=13,
+        pitch=50,
+    ),
+    layers=[
+        pdk.Layer(
+            'ScatterplotLayer',
+            data=df,
+            get_position='[LONG, LAT]',
+            get_color='[200, 30, 0, 160]',
+            get_radius=100,
+            pickable=True,
+            auto_highlight=True,
+        ),
+    ], tooltip={
+        "text": "{CENTER_M}",
+        "style": {
+            "backgroundColor": "steelblue",
+            "color": "white"
+        },
+    }
+))
 
 
-st_date = st_folium(map, width=800)
 
-
+# THIS WORKS
 # st.map(df,
-#     latitude='latitude',
-#     longitude='longitude',
+#     latitude='LAT',
+#     longitude='LONG',
+#     zoom=13,
 #     color='#0044ff')
+
+
+
+#PYDECK TEST
+# scatterplot_layer = pdk.Layer(
+#     'ScatterplotLayer',
+#     data=df,
+#     get_position='[LONG, LAT]',
+#     get_color='[200, 30, 0, 160]',
+#     get_radius=200,
+#     pickable=True,
+#     auto_highlight=True,
+#     tooltip='CENTER_M',
+# )
+
+
+# Create a pydeck Deck
+# deck = pdk.Deck(
+#     map_style=None,
+#     initial_view_state=pdk.ViewState(
+#         latitude=14.650068,
+#         longitude=121.102258,
+#         zoom=13,
+#         pitch=50,
+#     ),
+#     layers=[scatterplot_layer],
+# )
+#
+# # Display the pydeck chart in Streamlit
+# st.pydeck_chart(deck)
+# FOLIUM ISSUE:
+# map = folium.Map(location=[14.650068, 121.102258], zoom_start=16)
+#
+# for lt, ln, ev in zip(lat, long, evacuation_site):
+#     folium.Marker(location=[lt, ln], popup=str(ev)).add_to(map)
+
+
+# st_date = st_folium(map, width=800)
+
+
+# df = pd.DataFrame(
+#     np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
+#     columns=['lat', 'lon'])
+
+# st.map(df, columns=['LAT', 'LONG'])
