@@ -3,6 +3,7 @@ import pandas as pd
 from streamlit_folium import st_folium
 import folium
 import pydeck as pdk
+from pretty_notification_box import notification_box
 
 #ORIGNAL
 st.set_page_config(
@@ -50,7 +51,20 @@ st.pydeck_chart(pdk.Deck(
     }
 ))
 
+notice = "Please note that any data or information here is for " \
+         "demonstration purposes only, as part of submission " \
+         "for the MLH Hackathon"
 
+styles = {'material-icons':{'color': 'red'},
+          'title': {'font-weight':'bold'},
+          'notification-content-container': {'':''},
+          'title-text-url-container': {'',''},
+          'notification-text-link-close-container': {'',''},
+          'external-link': {'',''},
+          'close-button': {'',''}}
+
+notification_box(icon='warning', title='Note', textDisplay=f'{notice}',
+                 externalLink='', url='', styles=None, key='foo')
 
 # THIS WORKS
 # st.map(df,
@@ -58,7 +72,6 @@ st.pydeck_chart(pdk.Deck(
 #     longitude='LONG',
 #     zoom=13,
 #     color='#0044ff')
-
 
 
 #PYDECK TEST
