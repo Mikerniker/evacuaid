@@ -1,38 +1,56 @@
 import streamlit as st
 import pandas as pd
-import datetime
-import functions
-from fpdf import FPDF
-import base64
-from datab_reports import Reports, Session
+from datab_reports import Reports, Session, Inventory
 
 
 st.title('EvacuAid Hub')
 
-# st.subheader('Map of nearby evacuation centers')
-
 st.header('Situation Report Overview')
 
+def read_inventory():
+    session = Session()
+    all_inventory = session.query(Inventory).all()
+    session.close()
+    return all_inventory
 
-session = Session()
-reports = session.query(Reports).all()
+def search_inventory_by_site(site):
+    session = Session()
+    check_site = site.title()
+    relevant_inventory = session.query(Inventory).filter(Inventory.evacuation_site == check_site).all()
+    session.close()
+    return relevant_inventory
 
-for report in reports:
-    st.write(f"Evacuation Site: {report.evacuation_site}")
-    st.write(f"Date: {report.date}")
-    st.write(f"Time: {report.time}")
-    st.write('I. Situation Overview')
-    st.write(f"{report.situation}")
-    st.write('II. Status of Affected Areas and Population')
-    st.write(f"{report.affected_pop}")
-    st.write('III. Status of Displaced Population')
-    st.write(f"{report.displaced}")
-    st.write('IV. Response Actions and Interventions')
-    st.write(f"{report.response}")
-    st.write(f"Prepared by: {report.preparer}")
-    st.write(f"Released by: {report.releaser}")
+inventory = read_inventory()
 
-session.close()
+search_name = st.text_input('Enter site name:', key='original_search').strip()
+
+if st.button('Search'):
+    if search_name:
+        found_inventory = search_inventory_by_site(search_name)
+        if found_inventory:
+            st.write("## Sites needing aid")
+            with st.expander(f"{search_name.title()} Inventory"):
+
+                inventory_df = pd.DataFrame([
+                    {'item': item.item, 'quantity': item.quantity,
+                     'is_available': item.is_available}
+                    for item in found_inventory
+                ])
+                inventory_df["inventory"] = inventory_df['quantity']
+
+                st.dataframe(inventory_df,
+                             width=500,
+                             height=420,
+                             column_config={
+                                 "inventory": st.column_config.ProgressColumn(
+                                     "inventory",
+                                     help="Volume in tons",
+                                     min_value=0,
+                                     max_value=100)},
+                             )
+
+        else:
+            st.warning(f"No item found with name '{search_name}'.")
 
 # PDF
 # report_text = st.text_input("Report Text")
