@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 from datab_reports import Reports, Session, Inventory
 from PIL import Image
+from streamlit_extras.switch_page_button import switch_page
+from st_click_detector import click_detector
+import base64
 
 
 st.set_page_config(
@@ -10,16 +13,77 @@ st.set_page_config(
     layout="wide",
 )
 
+# Add CSS
 
-image = Image.open('evacuaid2.png')
+
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+
+def convert_image(filepath):
+    with open(filepath, "rb") as image_file:
+        image_base64 = base64.b64encode(image_file.read()).decode("utf-8")
+        return image_base64
+
+
+local_css("style.css")
+
+# Banner Section
+
+image = Image.open('images/evacuaid_banner.png')
 
 st.image(image, width=900)
 
+# Links to other Pages
 
 st.title('EvacuAid Hub')
 
-st.header('Situation Report Overview')
+st.markdown("<br>", unsafe_allow_html=True)
 
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    image_map_path = "images/evac_btn.png"
+    map_image_base64 = convert_image(image_map_path)
+
+    html = f"<a href='#'><img src='data:image/png;base64,{map_image_base64}'  style='border-radius: 30px;'></a>"
+    st.markdown(html, unsafe_allow_html=True)
+
+    st.write("Want to donate or volunteer? Click here to see which sites need your help.")
+
+with col2:
+    image_chat_path = "images/chat_btn.png"
+    chat_image_base64 = convert_image(image_chat_path)
+
+    html = f"<a href='#'><img src='data:image/png;base64,{chat_image_base64}'  style='border-radius: 30px;'></a>"
+    st.markdown(html, unsafe_allow_html=True)
+
+    st.write("Got questions? Give our Evacuaid assistant a try.")
+
+with col3:
+    image_login_path = "images/login_btn.png"
+    login_image_base64 = convert_image(image_login_path)
+
+    html = f"<a href='#'><img src='data:image/png;base64,{login_image_base64}'  style='border-radius: 30px;'></a>"
+    st.markdown(html, unsafe_allow_html=True)
+
+    st.write("Admin Login")
+
+
+st.markdown("<br><br>", unsafe_allow_html=True)
+
+# Option to search for a specific site
+
+st.header('Search Sites')
+
+# For Dropdown
+df = pd.read_csv('marikina_evacuation_centers.csv', usecols=['CENTER_M'])
+evac_sites_list = list(df["CENTER_M"])
+
+evacuation_site = st.selectbox('Select Evacuation Site', evac_sites_list)
+
+# For Search Bar
 def read_inventory():
     session = Session()
     all_inventory = session.query(Inventory).all()
@@ -32,59 +96,38 @@ def search_inventory_by_site(site):
     relevant_inventory = session.query(Inventory).filter(Inventory.evacuation_site == check_site).all()
     session.close()
     return relevant_inventory
-
+#
 inventory = read_inventory()
-
-search_name = st.text_input('Enter site name:', key='original_search').strip()
-
-if st.button('Search'):
-    if search_name:
-        found_inventory = search_inventory_by_site(search_name)
-        if found_inventory:
-            st.write("## Sites needing aid")
-            with st.expander(f"{search_name.title()} Inventory"):
-
-                inventory_df = pd.DataFrame([
-                    {'item': item.item.title(), 'quantity': item.quantity,
-                     'is_available': item.is_available}
-                    for item in found_inventory
-                ])
-                inventory_df["inventory"] = inventory_df['quantity']
-
-                st.dataframe(inventory_df,
-                             width=500,
-                             height=420,
-                             column_config={
-                                 "inventory": st.column_config.ProgressColumn(
-                                     "inventory",
-                                     help="Volume in tons",
-                                     min_value=0,
-                                     max_value=100)},
-                             )
-
-        else:
-            st.warning(f"No item found with name '{search_name}'.")
-
-# PDF
-# report_text = st.text_input("Report Text")
 #
-# export_as_pdf = st.button("Export Report")
+# search_name = st.text_input('Enter site name:', key='original_search').strip()
 #
-#
-# def create_download_link(val, filename):
-#     b64 = base64.b64encode(val)  # val looks like b'...'
-#     return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="{filename}.pdf">Download file</a>'
-#
-#
-# if export_as_pdf:
-#     pdf = FPDF()
-#     pdf.add_page()
-#     pdf.set_font('Arial', 'B', 16)
-#     pdf.cell(40, 10, report_text)
-#
-#     html = create_download_link(pdf.output(dest="S").encode("latin-1"), "test")
-#
-#     st.markdown(html, unsafe_allow_html=True)
+# if st.button('Search'):
+if evacuation_site:
+    found_inventory = search_inventory_by_site(evacuation_site)
+    if found_inventory:
+        st.write("## Sites needing aid")
+        with st.expander(f"{evacuation_site.title()} Inventory"):
+            inventory_df = pd.DataFrame([
+                {'Item': item.item.title(), 'Quantity': item.quantity}
+                for item in found_inventory
+            ])
+            inventory_df["Inventory"] = inventory_df['Quantity']
 
-
+            st.dataframe(inventory_df,
+                         width=500,
+                         height=420,
+                         column_config={
+                             "Inventory": st.column_config.ProgressColumn(
+                                 "Inventory",
+                                 help="Volume in tons",
+                                 min_value=0,
+                                 max_value=100)},
+                         hide_index=True,
+                         use_container_width=True
+                         )
+    else:
+        st.warning(f"{evacuation_site} is well-supported right now. "
+                   f"Consider redirecting aid to a location that could "
+                   f"benefit more from your generous donations. "
+                   f"Thank you for your support!")
 

@@ -93,28 +93,27 @@ if st.button('Search'):
         if found_inventory:
             st.write("## Sites needing aid")
             with st.expander(f"{search_name.title()} Inventory"):
-
                 inventory_df = pd.DataFrame([
-                    {'item': item.item.title(), 'quantity': item.quantity,
-                     'is_available': item.is_available}
+                    {'Item': item.item.title(), 'Quantity': item.quantity}
                     for item in found_inventory
                 ])
-                inventory_df["inventory"] = inventory_df['quantity']
+                inventory_df["Inventory"] = inventory_df['Quantity']
 
                 st.dataframe(inventory_df,
                              width=500,
                              height=420,
                              column_config={
-                                 "inventory": st.column_config.ProgressColumn(
-                                     "inventory",
+                                 "Inventory": st.column_config.ProgressColumn(
+                                     "Inventory",
                                      help="Volume in tons",
                                      min_value=0,
                                      max_value=100)},
+                             hide_index=True,
+                             use_container_width=True
                              )
 
         else:
             st.warning(f"No item found with name '{search_name}'.")
-
 
 # THIS WORKS
 # st.map(df,
