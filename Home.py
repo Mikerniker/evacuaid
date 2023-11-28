@@ -81,8 +81,6 @@ st.header('Search Evacuation Sites')
 evac_sites_list = read_evacuation_centers()
 evacuation_site = st.selectbox('Select Evacuation Site', evac_sites_list)
 
-# For Search Bar
-
 inventory = read_inventory()
 
 if evacuation_site:
