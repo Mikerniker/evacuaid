@@ -4,6 +4,13 @@ import functions
 from datab_reports import Reports, Inventory, Session, Base
 from password_check import check_password
 
+
+st.set_page_config(
+    page_title="Evacuaid",
+    page_icon="📦",
+    layout="wide",
+)
+
 # if check_password():
 st.header('Situation Report')
 
