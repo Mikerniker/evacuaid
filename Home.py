@@ -5,7 +5,8 @@ from PIL import Image
 from streamlit_extras.switch_page_button import switch_page
 from st_click_detector import click_detector
 import base64
-
+from functions import read_inventory, search_inventory_by_site, \
+    read_evacuation_centers
 
 st.set_page_config(
     page_title="Evacuaid",
@@ -13,9 +14,8 @@ st.set_page_config(
     layout="wide",
 )
 
+
 # Add CSS
-
-
 def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
@@ -75,33 +75,16 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 
 # Option to search for a specific site
 
-st.header('Search Sites')
+st.header('Search Evacuation Sites')
 
 # For Dropdown
-df = pd.read_csv('marikina_evacuation_centers.csv', usecols=['CENTER_M'])
-evac_sites_list = list(df["CENTER_M"])
-
+evac_sites_list = read_evacuation_centers()
 evacuation_site = st.selectbox('Select Evacuation Site', evac_sites_list)
 
 # For Search Bar
-def read_inventory():
-    session = Session()
-    all_inventory = session.query(Inventory).all()
-    session.close()
-    return all_inventory
 
-def search_inventory_by_site(site):
-    session = Session()
-    check_site = site.title()
-    relevant_inventory = session.query(Inventory).filter(Inventory.evacuation_site == check_site).all()
-    session.close()
-    return relevant_inventory
-#
 inventory = read_inventory()
-#
-# search_name = st.text_input('Enter site name:', key='original_search').strip()
-#
-# if st.button('Search'):
+
 if evacuation_site:
     found_inventory = search_inventory_by_site(evacuation_site)
     if found_inventory:
@@ -126,7 +109,7 @@ if evacuation_site:
                          use_container_width=True
                          )
     else:
-        st.warning(f"{evacuation_site} is well-supported right now. "
+        st.info(f"{evacuation_site} is well-supported right now. "
                    f"Consider redirecting aid to a location that could "
                    f"benefit more from your generous donations. "
                    f"Thank you for your support!")
