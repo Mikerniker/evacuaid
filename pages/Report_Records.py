@@ -5,6 +5,11 @@ from functions import read_inventory, search_inventory_by_site, \
     read_reports, search_report_by_site, read_evacuation_centers
 import pandas as pd
 
+st.set_page_config(
+    page_title="Evacuaid",
+    page_icon="📦",
+    layout="wide",
+)
 
 if check_password():
 
