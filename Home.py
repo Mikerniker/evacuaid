@@ -1,9 +1,6 @@
 import streamlit as st
 import pandas as pd
-from datab_reports import Reports, Session, Inventory
 from PIL import Image
-from streamlit_extras.switch_page_button import switch_page
-from st_click_detector import click_detector
 import base64
 from functions import read_inventory, search_inventory_by_site, \
     read_evacuation_centers
