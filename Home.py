@@ -1,6 +1,19 @@
 import streamlit as st
 import pandas as pd
 from datab_reports import Reports, Session, Inventory
+from PIL import Image
+
+
+st.set_page_config(
+    page_title="Evacuaid",
+    page_icon="📦",
+    layout="wide",
+)
+
+
+image = Image.open('evacuaid2.png')
+
+st.image(image, width=900)
 
 
 st.title('EvacuAid Hub')
@@ -32,7 +45,7 @@ if st.button('Search'):
             with st.expander(f"{search_name.title()} Inventory"):
 
                 inventory_df = pd.DataFrame([
-                    {'item': item.item, 'quantity': item.quantity,
+                    {'item': item.item.title(), 'quantity': item.quantity,
                      'is_available': item.is_available}
                     for item in found_inventory
                 ])
