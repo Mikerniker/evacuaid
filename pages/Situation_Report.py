@@ -11,7 +11,7 @@ all_reports = functions.get_reports()
 
 @st.cache_data()
 def add_report(evac_site, date, time, situation, population,
-               displaced, response, preparer, releaser, inventory_data):
+               displaced, response, preparer, releaser, activate, inventory_data):
 
     session = Session()
 
@@ -22,7 +22,7 @@ def add_report(evac_site, date, time, situation, population,
                          time=time_str, situation=situation,
                          affected_pop=population, displaced=displaced,
                          response=response, preparer=preparer,
-                         releaser=releaser)
+                         releaser=releaser, activate=activate)
 
     # Link the new Reports entry to Inventory entries
     for index, item_data in inventory_data.iterrows():
@@ -39,9 +39,9 @@ def add_report(evac_site, date, time, situation, population,
     session.commit()
     session.close()
 
-df = pd.read_csv('marikina_evacuation_centers.csv', usecols=['CENTER_M'])
-evac_sites_list = list(df["CENTER_M"])
 
+df = pd.read_csv('marikina_evacuation_centers.csv', usecols=['CENTER_M'])
+evac_sites_list = [''] + list(df["CENTER_M"])
 evacuation_site = st.selectbox('Select Evacuation Site', evac_sites_list)
 
 date = st.date_input("Add date", value=None)
@@ -63,17 +63,8 @@ releaser = st.text_input('Released by')
 
 # # Table
 
-# Define the possible values for the ItemEnum
-item_enum_values = [Inventory.ItemEnum.rice, Inventory.ItemEnum.flour, Inventory.ItemEnum.water,
-                    Inventory.ItemEnum.milk, Inventory.ItemEnum.sugar, Inventory.ItemEnum.canned_goods,
-                    Inventory.ItemEnum.cooking_oil, Inventory.ItemEnum.blankets, Inventory.ItemEnum.clothing,
-                    Inventory.ItemEnum.tents, Inventory.ItemEnum.hygiene]
-
-
 # Initialize empty DataFrame for the Inventory data
 item_enum_values = [getattr(Inventory.ItemEnum, attr) for attr in dir(Inventory.ItemEnum) if not callable(getattr(Inventory.ItemEnum, attr)) and not attr.startswith("__")]
-
-
 
 inventory_data = pd.DataFrame(columns=["item", "quantity", "is_available", "inventory"])
 inventory_data["item"] = item_enum_values
@@ -95,15 +86,17 @@ edited_inventory_df = st.data_editor(
                                                                 help="Volume in tons",
                                                                 min_value=0,
                                                                 max_value=100)},
-    num_rows="dynamic")
+    num_rows="dynamic",
+    use_container_width=True,
+    hide_index=True)
 
-st.write('Inventory List')
+# st.write('Inventory List')
 
 
-on = st.toggle('Activate feature')
+activate_aid = st.toggle('Activate Aid Request')
 
-if on:
-    st.write('Feature activated!')
+# if on:
+#     st.write('Feature activated!')
 
 if st.button("Save report"):
 
@@ -112,7 +105,7 @@ if st.button("Save report"):
     edited_inventory_data = edited_inventory_df.copy()
 
     add_report(evacuation_site, date, time, situation, affected_population,
-               displaced, response, preparer, releaser, edited_inventory_data)
+               displaced, response, preparer, releaser, activate_aid, edited_inventory_data)
 
     # Convert the edited_df to SQLite and save it
     conn = st.connection("local_db", type="sql", url="sqlite:///reports.db")
