@@ -24,7 +24,7 @@ if check_password():
     evacuation_site = st.selectbox('Select Evacuation Site', evac_sites_list)
 
     # Text input for search bar
-    search_name = st.text_input('Enter site name:', key='original_search').strip()
+    search_name = st.text_input('Enter Evacuation Site name:', key='original_search').strip()
 
     # Use the chosen input method for searching
     if st.button('Search'):
