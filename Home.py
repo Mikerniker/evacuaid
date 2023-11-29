@@ -5,6 +5,7 @@ import base64
 from functions import read_inventory, search_inventory_by_site, \
     read_evacuation_centers
 from st_pages import Page, show_pages, hide_pages
+from functions import search_active_inventory, read_active_sites
 
 st.set_page_config(
     page_title="Evacuaid",
@@ -78,21 +79,41 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 st.header('Search Evacuation Sites')
 
 # For Dropdown
+
+df = pd.read_csv('marikina_evacuation_centers.csv',
+                  usecols=['CENTER_M', 'LAT', 'LONG', 'LOCATION',
+                           'CONTACT_PERSON', 'CONTACT_NUMBER'])
+active_sites = read_active_sites()
+
 evac_sites_list = read_evacuation_centers()
 evacuation_site = st.selectbox('Select Evacuation Site', evac_sites_list)
 
 inventory = read_inventory()
 
-if evacuation_site:
-    found_inventory = search_inventory_by_site(evacuation_site)
-    if found_inventory:
-        st.write("## Sites needing aid")
+active_inventory = search_active_inventory(evacuation_site)
+
+site_row = df[df['CENTER_M'] == evacuation_site]  # ADDED
+
+if not site_row.empty:
+    location = site_row['LOCATION'].iloc[0]
+    contact_person = site_row['CONTACT_PERSON'].iloc[0]
+    contact_number = site_row['CONTACT_NUMBER'].iloc[0]
+
+
+    if active_inventory:
+        st.write(f"## {evacuation_site.title()} needs aid")
+
         with st.expander(f"{evacuation_site.title()} Inventory"):
             inventory_df = pd.DataFrame([
                 {'Item': item.item.title(), 'Quantity': item.quantity}
-                for item in found_inventory
+                for item in active_inventory
             ])
             inventory_df["Inventory"] = inventory_df['Quantity']
+
+            # ADD CONTCTS
+            st.write(f"**Location:** {location}")
+            st.write(f"**Contact Person:** {contact_person}")
+            st.write(f"**Contact Number:** {contact_number}")
 
             st.dataframe(inventory_df,
                          width=500,
@@ -106,9 +127,10 @@ if evacuation_site:
                          hide_index=True,
                          use_container_width=True
                          )
+
     else:
-        st.info(f"{evacuation_site} is well-supported right now. "
-                   f"Consider redirecting aid to a location that could "
-                   f"benefit more from your generous donations. "
-                   f"Thank you for your support!")
+        st.info(f"{evacuation_site} is well-supported right now."
+                f"Consider redirecting aid to a location that could "
+                f"benefit more from your generous donations. "
+                f"Thank you for your support!")
 

@@ -4,7 +4,7 @@ import pydeck as pdk
 from pretty_notification_box import notification_box
 from datab_reports import Reports, Session, Inventory
 from datab_reports import Reports, Inventory
-
+from functions import search_active_inventory, read_active_sites
 
 # Top Section
 st.set_page_config(
@@ -13,31 +13,31 @@ st.set_page_config(
     layout="wide",
 )
 
-def read_active_sites():
-    session = Session()
-    try:
-        # Read names of active evacuation sites
-        active_sites = session.query(Reports.evacuation_site).filter(
-            Reports.activate == True).all()
-        return list(set(site[0] for site in active_sites))
-    finally:
-        session.close()
+# def read_active_sites():
+#     session = Session()
+#     try:
+#         # Read names of active evacuation sites
+#         active_sites = session.query(Reports.evacuation_site).filter(
+#             Reports.activate == True).all()
+#         return list(set(site[0] for site in active_sites))
+#     finally:
+#         session.close()
 
 
-def search_active_inventory(site):
-    selected_site = site
-
-    session = Session()
-    try:
-        # Search inventory for the specified site if it is activated
-        inventory_items = session.query(Inventory).join(Reports).filter(
-            Reports.evacuation_site == selected_site,
-            Reports.activate == True
-        ).all()
-
-        return inventory_items
-    finally:
-        session.close()
+# def search_active_inventory(site):
+#     selected_site = site
+#
+#     session = Session()
+#     try:
+#         # Search inventory for the specified site if it is activated
+#         inventory_items = session.query(Inventory).join(Reports).filter(
+#             Reports.evacuation_site == selected_site,
+#             Reports.activate == True
+#         ).all()
+#
+#         return inventory_items
+#     finally:
+#         session.close()
 
 
 
@@ -101,15 +101,6 @@ st.info("Red markers indicate sites in need of aid, while blue markers represent
 
 
 
-styles = {'material-icons':{'color': 'red'},
-          'title': {'font-weight':'bold'},
-          'notification-content-container': {'':''},
-          'title-text-url-container': {'',''},
-          'notification-text-link-close-container': {'',''},
-          'external-link': {'',''},
-          'close-button': {'',''}}
-
-
 st.write("## Sites needing aid")
 for site in active_sites:
     active_inventory = search_active_inventory(site)
@@ -152,6 +143,18 @@ for site in active_sites:
     else:
         st.warning(f"No item found with name '{site.title()}'.")
 
+
+
+styles = {'material-icons':{'color': 'red'},
+          'title': {'font-weight':'bold'},
+          'notification-content-container': {'':''},
+          'title-text-url-container': {'',''},
+          'notification-text-link-close-container': {'',''},
+          'external-link': {'',''},
+          'close-button': {'',''}}
+
+
+st.markdown("<br><br><br><br>", unsafe_allow_html=True)
 
 notice = "Please note that any data or information here is for " \
          "demonstration purposes only, as part of submission " \
