@@ -47,11 +47,15 @@ st.header('Sites Needing Aid')
 
 active_sites = read_active_sites()
 df = pd.read_csv('marikina_evacuation_centers.csv',
-                  usecols=['CENTER_M', 'LAT', 'LONG'])
+                  usecols=['CENTER_M', 'LAT', 'LONG', 'LOCATION',
+                           'CONTACT_PERSON', 'CONTACT_NUMBER'])
 
 lat = list(df["LAT"])
 long = list(df["LONG"])
 evacuation_site = list(df["CENTER_M"])
+address = list(df["LOCATION"])
+contact_person = list(df["CONTACT_PERSON"])
+phone = list(df["CONTACT_NUMBER"])
 
 colors = []
 
@@ -91,6 +95,10 @@ st.pydeck_chart(pdk.Deck(
         },
     }
 ))
+
+
+st.info("Red markers indicate sites in need of aid, while blue markers represent fully stocked sites.", icon="ℹ️")
+
 
 
 styles = {'material-icons':{'color': 'red'},
