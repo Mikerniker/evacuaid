@@ -73,26 +73,28 @@ if check_password():
     # Initialize empty DataFrame for the Inventory data
     item_enum_values = [getattr(Inventory.ItemEnum, attr) for attr in dir(Inventory.ItemEnum) if not callable(getattr(Inventory.ItemEnum, attr)) and not attr.startswith("__")]
 
-    inventory_data = pd.DataFrame(columns=["item", "quantity", "is_available", "inventory"])
-    inventory_data["item"] = item_enum_values
-    inventory_data["quantity"] = 0
-    inventory_data["is_available"] = False
-    inventory_data["inventory"] = inventory_data['quantity']
+    inventory_data = pd.DataFrame(columns=["Item", "Quantity"]) # "is_available", "inventory"
+    inventory_data["Item"] = item_enum_values
+    inventory_data["Item"] = inventory_data["Item"].apply(lambda x: x.title())
+    inventory_data["Quantity"] = 0
+
+    # inventory_data["is_available"] = False
+    # inventory_data["inventory"] = inventory_data['quantity']
 
     # Display Inventory table using st.data_editor
     edited_inventory_df = st.data_editor(
         inventory_data,
-        column_config={"item": st.column_config.TextColumn("item", help="Item"),
-                       "quantity": st.column_config.NumberColumn("quantity",
+        column_config={"Item": st.column_config.TextColumn("Item", help="Item"),
+                       "Quantity": st.column_config.NumberColumn("Quantity",
                                                                  help="in tons",
                                                                  min_value=0,
-                                                                 max_value=100),
-                       "is_available": st.column_config.CheckboxColumn("is_available",
-                                                                       help="Is Available"),
-                       "inventory": st.column_config.ProgressColumn("inventory",
-                                                                    help="Volume in tons",
-                                                                    min_value=0,
-                                                                    max_value=100)},
+                                                                 max_value=100)},
+                       # "is_available": st.column_config.CheckboxColumn("is_available",
+                       #                                                 help="Is Available"),
+                       # "inventory": st.column_config.ProgressColumn("inventory",
+                       #                                              help="Volume in tons",
+                       #                                              min_value=0,
+                       #                                              max_value=100)},
         num_rows="dynamic",
         use_container_width=True,
         hide_index=True)
