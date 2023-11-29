@@ -19,7 +19,7 @@ if check_password():
     # Search functionality
     st.header('Search Report by Evacuation Site')
 
-    # DROPDOWN
+    # Dropdown
     evac_sites_list = read_evacuation_centers()
     evacuation_site = st.selectbox('Select Evacuation Site', evac_sites_list)
 
