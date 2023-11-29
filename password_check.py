@@ -1,6 +1,24 @@
 import hmac
 import streamlit as st
+from st_pages import Page, show_pages, hide_pages
 
+
+show_pages(
+    [
+        Page("Home.py", "Home", "🏠"),
+        Page("pages/Evacuation_Sites.py", "Evacuation Sites",
+             "🗺️"),
+        Page("pages/Chat.py", "Chat", "💬"),
+        Page("pages/Situation_Report.py", "Login", "🔒"),
+    ]
+)
+hide_pages(
+    [
+
+        Page("pages/Report_Records.py", "Records and Inventory",
+             "📄"),
+    ]
+)
 
 def check_password():
     """Returns `True` if the user had a correct password."""
@@ -23,8 +41,24 @@ def check_password():
             st.session_state["password_correct"] = True
             del st.session_state["password"]
             del st.session_state["username"]
+
+            #ADD CONDITION FOR SIDEBAR
+            show_pages(
+                [
+                    Page("Home.py", "Home", "🏠"),
+                    Page("pages/Evacuation_Sites.py", "Evacuation Sites",
+                         "🗺️"),
+                    Page("pages/Chat.py", "Chat", "💬"),
+                    Page("pages/Situation_Report.py", "Situation Report",
+                         "📝"),
+                    Page("pages/Report_Records.py", "Records and Inventory",
+                         "📄"),
+                ]
+            )
+
         else:
             st.session_state["password_correct"] = False
+
 
 
     if st.session_state.get("password_correct", False):

@@ -4,12 +4,15 @@ from PIL import Image
 import base64
 from functions import read_inventory, search_inventory_by_site, \
     read_evacuation_centers
+from st_pages import Page, show_pages, hide_pages
 
 st.set_page_config(
     page_title="Evacuaid",
     page_icon="📦",
     layout="wide",
 )
+
+# HIDE PAGES
 
 
 # Add CSS
