@@ -53,9 +53,9 @@ df = pd.read_csv('marikina_evacuation_centers.csv',
 lat = list(df["LAT"])
 long = list(df["LONG"])
 evacuation_site = list(df["CENTER_M"])
-address = list(df["LOCATION"])
-contact_person = list(df["CONTACT_PERSON"])
-phone = list(df["CONTACT_NUMBER"])
+# address = list(df["LOCATION"])
+# contact_person = list(df["CONTACT_PERSON"])
+# phone = list(df["CONTACT_NUMBER"])
 
 colors = []
 
@@ -113,6 +113,15 @@ styles = {'material-icons':{'color': 'red'},
 st.write("## Sites needing aid")
 for site in active_sites:
     active_inventory = search_active_inventory(site)
+
+    # Find the corresponding row in the dataframe for the current active site
+    site_row = df[df['CENTER_M'] == site]  #ADDED
+
+    location = site_row['LOCATION'].iloc[0]
+    contact_person = site_row['CONTACT_PERSON'].iloc[0]
+    contact_number = site_row['CONTACT_NUMBER'].iloc[0]
+
+
     if active_inventory:
         with st.expander(f"{site.title()} Inventory"):
             inventory_df = pd.DataFrame([
@@ -120,6 +129,11 @@ for site in active_sites:
                 for item in active_inventory
             ])
             inventory_df["Inventory"] = inventory_df['Quantity']
+
+            #ADD CONTCTS
+            st.write(f"**Location:** {location}")
+            st.write(f"**Contact Person:** {contact_person}")
+            st.write(f"**Contact Number:** {contact_number}")
 
 
             st.dataframe(inventory_df,
