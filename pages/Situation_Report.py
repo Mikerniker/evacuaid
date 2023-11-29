@@ -49,24 +49,24 @@ if check_password():
 
     df = pd.read_csv('marikina_evacuation_centers.csv', usecols=['CENTER_M'])
     evac_sites_list = [''] + list(df["CENTER_M"])
-    evacuation_site = st.selectbox('Select Evacuation Site', evac_sites_list)
+    evacuation_site = st.selectbox('##### Select Evacuation Site', evac_sites_list)
 
-    date = st.date_input("Add date", value=None)
+    date = st.date_input("##### Add date", value=None)
 
-    time = st.time_input('Add time', value=None)
+    time = st.time_input('##### Add time', value=None)
 
-    situation = st.text_input('Give an overview of the situation')
+    situation = st.text_area('##### Give an overview of the situation')
 
-    affected_population = st.text_input('Describe the status of affected areas and population')
+    affected_population = st.text_area('##### Describe the status of affected areas and population')
 
-    displaced = st.text_input('Describe the status of displaced population')
+    displaced = st.text_area('##### Describe the status of displaced population')
 
-    response = st.text_input('Describe reponse actions and interventions, i.e.'
+    response = st.text_area('##### Describe response actions and interventions, i.e.'
                              ' standby funds, food and nonfood items, other activities')
 
-    preparer = st.text_input('Prepared by')
+    preparer = st.text_input('##### Prepared by')
 
-    releaser = st.text_input('Released by')
+    releaser = st.text_input('##### Released by')
 
     # # Table
 
