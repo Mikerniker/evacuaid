@@ -47,6 +47,7 @@ def check_password():
             st.session_state["password_correct"] = True
             del st.session_state["password"]
             del st.session_state["username"]
+            del st.session_state[show_public_pages()]
 
             # Show all pages after successful login
             show_all_pages()
