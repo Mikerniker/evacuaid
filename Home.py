@@ -2,18 +2,15 @@ import streamlit as st
 import pandas as pd
 from PIL import Image
 import base64
-from functions import read_inventory, search_inventory_by_site, \
-    read_evacuation_centers
-from st_pages import Page, show_pages, hide_pages
+from functions import read_inventory, read_evacuation_centers
 from functions import search_active_inventory, read_active_sites
+
 
 st.set_page_config(
     page_title="Evacuaid",
     page_icon="📦",
     layout="wide",
 )
-
-# HIDE PAGES
 
 
 # Add CSS
