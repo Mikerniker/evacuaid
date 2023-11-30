@@ -24,7 +24,6 @@ def show_all_pages():
         ]
     )
 
-show_public_pages()
 
 def check_password():
     """Returns `True` if the user had a correct password."""
@@ -35,6 +34,7 @@ def check_password():
             st.text_input("Username", key="username")
             st.text_input("Password", type="password", key="password")
             st.form_submit_button("Log in", on_click=password_entered)
+
 
     def password_entered():
         """Checks whether a password entered by the user is correct."""
@@ -47,7 +47,6 @@ def check_password():
             st.session_state["password_correct"] = True
             del st.session_state["password"]
             del st.session_state["username"]
-            del st.session_state[show_public_pages()]
 
             # Show all pages after successful login
             show_all_pages()
@@ -66,4 +65,5 @@ def check_password():
 
 
 if not check_password():
+    show_public_pages()
     st.stop()
