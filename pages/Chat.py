@@ -59,46 +59,34 @@ with st.chat_message("assistant"):
 if prompt := option:
     # Display user message in chat message container
     st.chat_message("user").markdown(prompt)
-    # Add user message to chat history
-    st.session_state.messages.append({"role": "user", "content": prompt})
 
-    response = ""
+    response = "Please choose an option from the dropdown."
 
     if option == contact:
-        with st.chat_message("assistant"):
-            response = "Which site do you need contact information for"
-            st.markdown(response)
+        evacuation_site = st.selectbox('Select Evacuation Site',
+                                       options=[''] + list(df['CENTER_M']))
 
-            evacuation_site = st.selectbox('Select Evacuation Site',
-                                           options=[''] + list(df['CENTER_M']))
-
-            # Find the corresponding row for the selected evacuation site
-            site_row = df[
-                df['CENTER_M'] == evacuation_site]
+        if evacuation_site:
+            site_row = df[df['CENTER_M'] == evacuation_site]
 
             if not site_row.empty:
-                contact_person = df['CONTACT_PERSON'].iloc[0]
-                contact_number = df['CONTACT_NUMBER'].iloc[0]
+                contact_person = site_row['CONTACT_PERSON'].iloc[0]
+                contact_number = site_row['CONTACT_NUMBER'].iloc[0]
 
                 response = f"Here are the contacts for {evacuation_site}"
-                st.markdown(response)
-                st.write(f"**Contact Person:** {contact_person}")
-                st.write(f"**Contact Number:** {contact_number}")
+                with st.expander(f"{evacuation_site.title()} Contacts"):
+                    st.write(f"**Contact Person:** {contact_person}")
+                    st.write(f"**Contact Number:** {contact_number}")
             else:
-                st.warning(
-                    f"No contact information found for {evacuation_site}")
+                response = f"No contact information found for {evacuation_site}"
 
     elif option == evacuation_site:
         response = "The sites currently looking for aid are:\n" +\
                    "\n".join([f"- {site}" for site in active_sites])
-        with st.chat_message("assistant"):
-            st.markdown(response)
 
     elif option == inventory:
         inventories = find_active_site_inventory()
-        response = "These are the current inventories of active sites ⇩"
-        with st.chat_message("assistant"):
-            st.markdown(response)
+        response = "These are the current inventories of active sites 🔼"
 
         for site, inventory_df in inventories:
             with st.expander(f"{site.title()} Inventory"):
@@ -114,5 +102,89 @@ if prompt := option:
                              hide_index=True,
                              use_container_width=True)
 
-    st.session_state.messages.append({"role": "assistant", "content": response})
+    # Display assistant response in chat message container
+    with st.chat_message("assistant"):
+        st.markdown(response)
+    #     # Ask the user if they need anything else
+    #     repeat_options_placeholder = st.empty()
+    #     repeat_options = repeat_options_placeholder.button(
+    #         "Do you need anything else?")
+    #
+    #     if repeat_options:
+    #         repeat_options_placeholder.markdown(
+    #             "Sure! What else can I help you with?")
+    #     else:
+            # Repeat the available options
+            # repeat_options_placeholder.markdown(
+            #     "Here are the available options: 'Find a contact for an Evacuation Site', 'Find an Evacuation Site in need of aid', 'Find the inventory of an active site'")
+
+        # # Ask the user if they need anything else
+        # repeat_options = st.button("Do you need anything else?")
+        # if repeat_options:
+        #     st.session_state.messages.append({"role": "assistant", "content": "Sure! What else can I help you with?"})
+        # else:
+        #     # Repeat the available options
+        #     st.session_state.messages.append({"role": "assistant", "content": "Here are the available options: 'Find a contact for an Evacuation Site', 'Find an Evacuation Site in need of aid', 'Find the inventory of an active site'"})
+
+
+# React to user input
+# if prompt := option:
+#     # Display user message in chat message container
+#     st.chat_message("user").markdown(prompt)
+#     # Add user message to chat history
+#     st.session_state.messages.append({"role": "user", "content": prompt})
+#
+#     response = ""
+#
+#     if option == contact:
+#         with st.chat_message("assistant"):
+#             response = "Which site do you need contact information for"
+#             st.markdown(response)
+#
+#             evacuation_site = st.selectbox('Select Evacuation Site',
+#                                            options=[''] + list(df['CENTER_M']))
+#
+#             # Find the corresponding row for the selected evacuation site
+#             site_row = df[
+#                 df['CENTER_M'] == evacuation_site]
+#
+#             if not site_row.empty:
+#                 contact_person = df['CONTACT_PERSON'].iloc[0]
+#                 contact_number = df['CONTACT_NUMBER'].iloc[0]
+#
+#                 response = f"Here are the contacts for {evacuation_site}"
+#                 st.markdown(response)
+#                 st.write(f"**Contact Person:** {contact_person}")
+#                 st.write(f"**Contact Number:** {contact_number}")
+#             else:
+#                 st.warning(
+#                     f"No contact information found for {evacuation_site}")
+#
+#     elif option == evacuation_site:
+#         response = "The sites currently looking for aid are:\n" +\
+#                    "\n".join([f"- {site}" for site in active_sites])
+#         with st.chat_message("assistant"):
+#             st.markdown(response)
+#
+#     elif option == inventory:
+#         inventories = find_active_site_inventory()
+#         response = "These are the current inventories of active sites ⇩"
+#         with st.chat_message("assistant"):
+#             st.markdown(response)
+#
+#         for site, inventory_df in inventories:
+#             with st.expander(f"{site.title()} Inventory"):
+#                 st.dataframe(inventory_df,
+#                              width=500,
+#                              height=420,
+#                              column_config={
+#                                  "Inventory": st.column_config.ProgressColumn(
+#                                      "Inventory",
+#                                      help="Volume in tons",
+#                                      min_value=0,
+#                                      max_value=100)},
+#                              hide_index=True,
+#                              use_container_width=True)
+#
+#     st.session_state.messages.append({"role": "assistant", "content": response})
 
