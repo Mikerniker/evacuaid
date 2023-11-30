@@ -11,10 +11,11 @@ st.set_page_config(
     layout="wide",
 )
 
-if check_password():
-    st.header('Situation Report')
 
-    all_reports = functions.get_reports()
+if check_password():
+
+
+    st.header('Situation Report')
 
     @st.cache_data()
     def add_report(evac_site, date, time, situation, population,
@@ -120,4 +121,3 @@ if check_password():
 
 
         st.success("Report added successfully!")
-
