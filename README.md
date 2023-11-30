@@ -5,6 +5,7 @@
 
 [<img src="images/evacuaid_banner.png" width="50%">](https://www.youtube.com/watch?v=zYok-lRehNQ "Evacuaid Demo")
 
+This was created for my project submission to the [MLH Month Long Hackathon November 2023](https://hackfest-november.devpost.com/)
 
 ## Overview
 
