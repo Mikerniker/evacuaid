@@ -108,7 +108,7 @@ if not site_row.empty:
             inventory_df["Inventory"] = inventory_df['Quantity']
 
             # ADD CONTCTS
-            st.write(f"**Location:** {location}")
+            st.write(f"**Address:** {location}")
             st.write(f"**Contact Person:** {contact_person}")
             st.write(f"**Contact Number:** {contact_number}")
 
