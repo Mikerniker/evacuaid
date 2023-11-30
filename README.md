@@ -67,7 +67,7 @@ password = "123evacuaid"
 - Implement a better user login/password/register options.
 - Allow users to modify or update the inventory database.
 - Refine functionality based on actual processes.
-
+- Organize and fix code to make it cleaner
 
 Feel free to clone the repository, explore the code!
 
