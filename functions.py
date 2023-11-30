@@ -1,22 +1,6 @@
 from datab_reports import Reports, Session, Inventory
 import pandas as pd
 
-FILEPATH = "Reports.csv"
-
-def get_reports(filepath=FILEPATH):
-    """ Read a csv file and return the list of
-    reports.
-    """
-    with open(filepath, "r", encoding="utf-8") as file_local:
-        reports_local = file_local.readlines()
-    return reports_local
-
-
-def write_reports(reports_arg, filepath=FILEPATH):
-    """Write report in the csv file"""
-    with open(filepath, 'w', encoding="utf-8") as file:
-        file.writelines(reports_arg)
-
 
 def read_inventory():
     session = Session()
@@ -63,7 +47,6 @@ def read_active_sites():
         return list(set(site[0] for site in active_sites))
     finally:
         session.close()
-
 
 
 def search_active_inventory(site):
