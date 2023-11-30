@@ -36,9 +36,9 @@ if check_password():
         for index, item_data in inventory_data.iterrows():
             # is_available = item_data['is_available']
             item = Inventory(
-                item=item_data['item'],
-                quantity=item_data['quantity'],
-                is_available=item_data['is_available']
+                item=item_data['Item'],
+                quantity=item_data['Quantity'],
+                is_available=item_data['is_available'] if 'is_available' in item_data else False
             )
             new_report.inventory.append(item)
 
