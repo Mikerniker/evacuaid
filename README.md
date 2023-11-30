@@ -17,9 +17,10 @@ to create reports and an inventory internally for monitoring purposes.
 
 ## Demo live Site
 To demo live site: [click here](https://evacuaid-demo.streamlit.app/)
-- For additional context, the app was modeled from the Philippine context and based on
+- Context:
+- The app was modeled from the Philippine context and based on
 the local [Disaster Response Operations Monitoring and Information Center (DROMIC)](https://dromic.dswd.gov.ph/)
-reporting system.
+reporting system, however it can be adapted to other reporting systems or practices.
 - Schools in the Philippines are often used as evacuation centers,
 so the demo site mainly has schools listed as the evacuation sites.
 - To try the demo admin login with dummy credentials:
@@ -27,6 +28,8 @@ so the demo site mainly has schools listed as the evacuation sites.
 username = "public_user" 
 password = "123evacuaid"
 ```
+- I currently have two repos, I had to recreate it for deploying to streamlit,
+ the other repo can be accessed here: [Evacuaid Deploy](https://github.com/Mikerniker/Evacuaid_demo) 
 
 ## Features
 
