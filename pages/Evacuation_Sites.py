@@ -3,7 +3,6 @@ import pandas as pd
 import pydeck as pdk
 from pretty_notification_box import notification_box
 from datab_reports import Reports, Session, Inventory
-from datab_reports import Reports, Inventory
 from functions import search_active_inventory, read_active_sites
 
 # Top Section
@@ -12,33 +11,6 @@ st.set_page_config(
     page_icon="📦",
     layout="wide",
 )
-
-# def read_active_sites():
-#     session = Session()
-#     try:
-#         # Read names of active evacuation sites
-#         active_sites = session.query(Reports.evacuation_site).filter(
-#             Reports.activate == True).all()
-#         return list(set(site[0] for site in active_sites))
-#     finally:
-#         session.close()
-
-
-# def search_active_inventory(site):
-#     selected_site = site
-#
-#     session = Session()
-#     try:
-#         # Search inventory for the specified site if it is activated
-#         inventory_items = session.query(Inventory).join(Reports).filter(
-#             Reports.evacuation_site == selected_site,
-#             Reports.activate == True
-#         ).all()
-#
-#         return inventory_items
-#     finally:
-#         session.close()
-
 
 
 st.title('EvacuAid Hub')
@@ -53,9 +25,7 @@ df = pd.read_csv('marikina_evacuation_centers.csv',
 lat = list(df["LAT"])
 long = list(df["LONG"])
 evacuation_site = list(df["CENTER_M"])
-# address = list(df["LOCATION"])
-# contact_person = list(df["CONTACT_PERSON"])
-# phone = list(df["CONTACT_NUMBER"])
+
 
 colors = []
 
@@ -100,7 +70,6 @@ st.pydeck_chart(pdk.Deck(
 st.info("Red markers indicate sites in need of aid, while blue markers represent fully stocked sites.", icon="ℹ️")
 
 
-
 st.write("## Sites needing aid")
 for site in active_sites:
     active_inventory = search_active_inventory(site)
@@ -122,7 +91,7 @@ for site in active_sites:
             inventory_df["Inventory"] = inventory_df['Quantity']
 
             #ADD CONTCTS
-            st.write(f"**Location:** {location}")
+            st.write(f"**Address:** {location}")
             st.write(f"**Contact Person:** {contact_person}")
             st.write(f"**Contact Number:** {contact_number}")
 
@@ -156,9 +125,11 @@ styles = {'material-icons':{'color': 'red'},
 
 st.markdown("<br><br><br><br>", unsafe_allow_html=True)
 
-notice = "Please note that any data or information here is for " \
-         "demonstration purposes only, as part of submission " \
-         "for the MLH Hackathon"
+notice = "Please note that all data and information " \
+         "presented herein are solely for demonstration purposes. " \
+         "The contact numbers and individuals depicted are entirely fictional " \
+         "and not representative of real entities. This submission serves as a " \
+         "demonstration for the MLH Hackathon."
 
 notification_box(icon='warning', title='Note', textDisplay=f'{notice}',
                  externalLink='', url='', styles=None, key='foo')
