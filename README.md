@@ -47,17 +47,18 @@ password = "123evacuaid"
 
 1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/your-username/evacuaid.git```
+   ```
+   bash
+   git clone https://github.com/your-username/evacuaid.git
+   ```
 
 2. Install dependencies:
 
-```pip install -r requirements.txt
-```
+```pip install -r requirements.txt```
+
 
 3. Run the app:
-```streamlit run Home.py
-```
+```streamlit run Home.py```
 
 ## Future Improvements
 - Enhance chatbot to make it more user-friendly or interactive.
