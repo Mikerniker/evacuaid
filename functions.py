@@ -1,4 +1,5 @@
 from datab_reports import Reports, Session, Inventory
+import streamlit as st
 import pandas as pd
 
 
@@ -63,3 +64,24 @@ def search_active_inventory(site):
         return inventory_items
     finally:
         session.close()
+
+
+# Functions for Chat
+active_sites = read_active_sites()
+
+
+def find_active_site_inventory():
+    inventories = []
+    for site in active_sites:
+        active_inventory = search_active_inventory(site)
+        if active_inventory:
+            inventory_df = pd.DataFrame([
+                {'Item': item.item.title(), 'Quantity': item.quantity}
+                for item in active_inventory
+            ])
+            inventory_df["Inventory"] = inventory_df['Quantity']
+            inventories.append((site, inventory_df))
+        else:
+            st.warning(f"No item found with name '{site.title()}'.")
+
+    return inventories

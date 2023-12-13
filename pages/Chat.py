@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-from functions import search_active_inventory, read_active_sites
+from functions import search_active_inventory, read_active_sites, \
+    find_active_site_inventory, active_sites
 
 st.set_page_config(
     page_title="Evacuaid",
@@ -13,31 +14,10 @@ contact = 'Find a contact for an Evacuation Site'
 evacuation_site = 'Find an Evacuation Site in need of aid'
 inventory = 'Find the inventory of an active site'
 
-# evac_sites_list = read_evacuation_centers()
-active_sites = read_active_sites()
+
 df = pd.read_csv('marikina_evacuation_centers.csv',
                   usecols=['CENTER_M', 'LAT', 'LONG', 'LOCATION',
                            'CONTACT_PERSON', 'CONTACT_NUMBER'])
-
-
-def find_active_site_inventory():
-    inventories = []
-    for site in active_sites:
-        active_inventory = search_active_inventory(site)
-        if active_inventory:
-            inventory_df = pd.DataFrame([
-                {'Item': item.item.title(), 'Quantity': item.quantity}
-                for item in active_inventory
-            ])
-            inventory_df["Inventory"] = inventory_df['Quantity']
-            inventories.append((site, inventory_df))
-        else:
-            st.warning(f"No item found with name '{site.title()}'.")
-
-    return inventories
-
-
-
 
 
 st.title("EvacuAid Assistant")
