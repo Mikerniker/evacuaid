@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 from PIL import Image
 import base64
-from functions import read_inventory, read_evacuation_centers
-from functions import search_active_inventory, read_active_sites
+from functions import read_inventory, read_evacuation_centers, \
+    search_active_inventory, df
 
 
 st.set_page_config(
@@ -33,7 +33,7 @@ image = Image.open('images/evacuaid_banner.png')
 
 st.image(image, width=900)
 
-# Links to other Pages
+# Section with Buttons to other Pages
 
 st.title('EvacuAid Hub')
 
@@ -45,7 +45,8 @@ with col1:
     image_map_path = "images/evac_btn.png"
     map_image_base64 = convert_image(image_map_path)
 
-    html = f"<a href='#'><img src='data:image/png;base64,{map_image_base64}'  style='border-radius: 30px;'></a>"
+    html = f"<a href='#'><img src='data:image/png;base64," \
+           f"{map_image_base64}' style='border-radius: 30px;'></a>"
     st.markdown(html, unsafe_allow_html=True)
 
     st.write("Want to donate or volunteer? Click here to see which sites need your help.")
@@ -54,7 +55,7 @@ with col2:
     image_chat_path = "images/chat_btn.png"
     chat_image_base64 = convert_image(image_chat_path)
 
-    html = f"<a href='#'><img src='data:image/png;base64,{chat_image_base64}'  style='border-radius: 30px;'></a>"
+    html = f"<a href='#'><img src='data:image/png;base64,{chat_image_base64}' style='border-radius: 30px;'></a>"
     st.markdown(html, unsafe_allow_html=True)
 
     st.write("Got questions? Give our Evacuaid assistant a try.")
@@ -71,16 +72,11 @@ with col3:
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 
-# Option to search for a specific site
+# Section to search for active sites via dropdown
 
 st.header('Search Evacuation Sites')
 
 # For Dropdown
-
-df = pd.read_csv('marikina_evacuation_centers.csv',
-                  usecols=['CENTER_M', 'LAT', 'LONG', 'LOCATION',
-                           'CONTACT_PERSON', 'CONTACT_NUMBER'])
-active_sites = read_active_sites()
 
 evac_sites_list = read_evacuation_centers()
 evacuation_site = st.selectbox('Select Evacuation Site', evac_sites_list)
@@ -89,13 +85,12 @@ inventory = read_inventory()
 
 active_inventory = search_active_inventory(evacuation_site)
 
-site_row = df[df['CENTER_M'] == evacuation_site]  # ADDED
+site_row = df[df['CENTER_M'] == evacuation_site]
 
 if not site_row.empty:
     location = site_row['LOCATION'].iloc[0]
     contact_person = site_row['CONTACT_PERSON'].iloc[0]
     contact_number = site_row['CONTACT_NUMBER'].iloc[0]
-
 
     if active_inventory:
         st.write(f"## {evacuation_site.title()} needs aid")
@@ -107,7 +102,7 @@ if not site_row.empty:
             ])
             inventory_df["Inventory"] = inventory_df['Quantity']
 
-            # ADD CONTCTS
+            # Add Contacts
             st.write(f"**Address:** {location}")
             st.write(f"**Contact Person:** {contact_person}")
             st.write(f"**Contact Number:** {contact_number}")
@@ -124,10 +119,8 @@ if not site_row.empty:
                          hide_index=True,
                          use_container_width=True
                          )
-
     else:
-        st.info(f"{evacuation_site} is well-supported right now."
+        st.info(f"{evacuation_site} is well-supported right now. "
                 f"Consider redirecting aid to a location that could "
                 f"benefit more from your generous donations. "
                 f"Thank you for your support!")
-
