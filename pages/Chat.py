@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
-from functions import search_active_inventory, read_active_sites, \
-    find_active_site_inventory, active_sites
+from functions import find_active_site_inventory, active_sites, df
 
 st.set_page_config(
     page_title="Evacuaid",
@@ -13,11 +12,6 @@ st.set_page_config(
 contact = 'Find a contact for an Evacuation Site'
 evacuation_site = 'Find an Evacuation Site in need of aid'
 inventory = 'Find the inventory of an active site'
-
-
-df = pd.read_csv('marikina_evacuation_centers.csv',
-                  usecols=['CENTER_M', 'LAT', 'LONG', 'LOCATION',
-                           'CONTACT_PERSON', 'CONTACT_NUMBER'])
 
 
 st.title("EvacuAid Assistant")

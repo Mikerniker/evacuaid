@@ -90,3 +90,4 @@ def find_active_site_inventory():
 df = pd.read_csv('marikina_evacuation_centers.csv',
                   usecols=['CENTER_M', 'LAT', 'LONG', 'LOCATION',
                            'CONTACT_PERSON', 'CONTACT_NUMBER'])
+
