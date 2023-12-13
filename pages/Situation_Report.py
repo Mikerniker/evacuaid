@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
-import functions
 from datab_reports import Reports, Inventory, Session, Base
 from password_check import check_password
+from functions import df
 
 
 st.set_page_config(
@@ -13,8 +13,6 @@ st.set_page_config(
 
 
 if check_password():
-
-
     st.header('Situation Report')
 
     @st.cache_data()
@@ -47,8 +45,6 @@ if check_password():
         session.commit()
         session.close()
 
-
-    df = pd.read_csv('marikina_evacuation_centers.csv', usecols=['CENTER_M'])
     evac_sites_list = [''] + list(df["CENTER_M"])
     evacuation_site = st.selectbox('##### Select Evacuation Site', evac_sites_list)
 
@@ -69,18 +65,15 @@ if check_password():
 
     releaser = st.text_input('##### Released by')
 
-    # # Table
+    # Add Table
 
     # Initialize empty DataFrame for the Inventory data
     item_enum_values = [getattr(Inventory.ItemEnum, attr) for attr in dir(Inventory.ItemEnum) if not callable(getattr(Inventory.ItemEnum, attr)) and not attr.startswith("__")]
 
-    inventory_data = pd.DataFrame(columns=["Item", "Quantity"]) # "is_available", "inventory"
+    inventory_data = pd.DataFrame(columns=["Item", "Quantity"])
     inventory_data["Item"] = item_enum_values
     inventory_data["Item"] = inventory_data["Item"].apply(lambda x: x.title())
     inventory_data["Quantity"] = 0
-
-    # inventory_data["is_available"] = False
-    # inventory_data["inventory"] = inventory_data['quantity']
 
     # Display Inventory table using st.data_editor
     edited_inventory_df = st.data_editor(
@@ -90,12 +83,6 @@ if check_password():
                                                                  help="in tons",
                                                                  min_value=0,
                                                                  max_value=100)},
-                       # "is_available": st.column_config.CheckboxColumn("is_available",
-                       #                                                 help="Is Available"),
-                       # "inventory": st.column_config.ProgressColumn("inventory",
-                       #                                              help="Volume in tons",
-                       #                                              min_value=0,
-                       #                                              max_value=100)},
         num_rows="dynamic",
         use_container_width=True,
         hide_index=True)
