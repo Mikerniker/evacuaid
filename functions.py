@@ -85,3 +85,8 @@ def find_active_site_inventory():
             st.warning(f"No item found with name '{site.title()}'.")
 
     return inventories
+
+# Read CSV
+df = pd.read_csv('marikina_evacuation_centers.csv',
+                  usecols=['CENTER_M', 'LAT', 'LONG', 'LOCATION',
+                           'CONTACT_PERSON', 'CONTACT_NUMBER'])

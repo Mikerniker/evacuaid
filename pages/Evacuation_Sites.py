@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 import pydeck as pdk
 from pretty_notification_box import notification_box
-from datab_reports import Reports, Session, Inventory
-from functions import search_active_inventory, read_active_sites
+from functions import search_active_inventory, \
+    active_sites, df
 
 # Top Section
 st.set_page_config(
@@ -17,15 +17,11 @@ st.title('EvacuAid Hub')
 
 st.header('Sites Needing Aid')
 
-active_sites = read_active_sites()
-df = pd.read_csv('marikina_evacuation_centers.csv',
-                  usecols=['CENTER_M', 'LAT', 'LONG', 'LOCATION',
-                           'CONTACT_PERSON', 'CONTACT_NUMBER'])
-
 lat = list(df["LAT"])
 long = list(df["LONG"])
 evacuation_site = list(df["CENTER_M"])
 
+# Create colors for map
 
 colors = []
 
@@ -37,6 +33,9 @@ for site in evacuation_site:
 
 # Add the 'is_active' column to the DataFrame
 df['is_active'] = colors
+
+
+# Map Section: Pydeck map
 
 st.pydeck_chart(pdk.Deck(
     map_style=None,
@@ -70,6 +69,8 @@ st.pydeck_chart(pdk.Deck(
 st.info("Red markers indicate sites in need of aid, while blue markers represent fully stocked sites.", icon="ℹ️")
 
 
+# Inventory Section
+
 st.write("## Sites needing aid")
 for site in active_sites:
     active_inventory = search_active_inventory(site)
@@ -90,7 +91,7 @@ for site in active_sites:
             ])
             inventory_df["Inventory"] = inventory_df['Quantity']
 
-            #ADD CONTCTS
+            #ADD CONTACTS
             st.write(f"**Address:** {location}")
             st.write(f"**Contact Person:** {contact_person}")
             st.write(f"**Contact Number:** {contact_number}")
@@ -112,7 +113,7 @@ for site in active_sites:
     else:
         st.warning(f"No item found with name '{site.title()}'.")
 
-
+# Notification box Section
 
 styles = {'material-icons':{'color': 'red'},
           'title': {'font-weight':'bold'},
