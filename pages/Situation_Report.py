@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from datab_reports import Reports, Inventory, Session, Base
+from datab_reports import Reports, Inventory, Session
 from password_check import check_password
 from functions import df
 
@@ -32,14 +32,12 @@ if check_password():
 
         # Link the new Reports entry to Inventory entries
         for index, item_data in inventory_data.iterrows():
-            # is_available = item_data['is_available']
             item = Inventory(
                 item=item_data['Item'],
                 quantity=item_data['Quantity'],
                 is_available=item_data['is_available'] if 'is_available' in item_data else False
             )
             new_report.inventory.append(item)
-
 
         session.add(new_report)
         session.commit()
